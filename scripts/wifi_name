@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Получаем имя текущей Wi-Fi сети
+current_wifi_name=$(nmcli -t -f NAME connection show --active | tr -d 'lo')
+
+# Проверяем, что имя не пустое
+if [ -n "$current_wifi_name" ]; then
+    echo "$current_wifi_name"
+else
+    echo "Not connected to a Wi-Fi network."
+fi
