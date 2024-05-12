@@ -1,0 +1,15 @@
+#nm-gui-python-window {
+    background-color: #26272A;
+}
+
+#network-info {
+    max-height: 230px;
+    height: 230px;
+    color: white;
+}
+
+
+#body {
+    display: inline-block;
+}
+
