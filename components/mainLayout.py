@@ -1,34 +1,24 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QTextBrowser, QLabel
+from PyQt6.QtSvgWidgets import QSvgWidget
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QTextBrowser, QLabel, QApplication, \
+    QSpacerItem, QSizePolicy, QGridLayout
+from PyQt6.QtCore import Qt, QSize
 from PyQt6.QtGui import QPixmap
 
 
 class ImageRadioButton(QWidget):
-    def __init__(self, image_path, parent=None):
-        super().__init__(parent)
-        self.selected = False
-        self.image_label = QLabel(self)
-        self.image_label.setPixmap(QPixmap(image_path))
-        self.image_label.mousePressEvent = self.on_click
-        self.setLayout(QVBoxLayout())
-        self.layout().addWidget(self.image_label)
+    def __init__(self):
+        super().__init__()
+        self.is_selected = False
+        self.image = QSvgWidget('./assets/wifi.svg')
+        self.initUI()
+        self.setFixedHeight(60)
+        self.setFixedWidth(60)
 
-    def on_click(self, event):
-        self.selected = not self.selected
-        self.update_style()
+    def initUI(self):
+        layout = QHBoxLayout()
+        layout.addWidget(self.image)
+        self.setLayout(layout)
 
-    def update_style(self):
-        if self.selected:
-            self.setStyleSheet("""
-                ImageRadioButton {
-                    border: 2px solid blue;
-                }
-            """)
-        else:
-            self.setStyleSheet("""
-                ImageRadioButton {
-                    border: none;
-                }
-            """)
 
 class NetworkInfo(QWidget):
     def __init__(self):
@@ -40,50 +30,17 @@ class NetworkInfo(QWidget):
         self.initUI()
 
     def initUI(self):
-        network_info = QHBoxLayout()
-        network_info.setObjectName("network-info")
-
-        r_btn = ImageRadioButton("./static/wifi.svg")
-        r_btn.setObjectName("network-info-rbn")
-        r_btn.setFixedHeight(60)
-        r_btn.setFixedWidth(60)
-        network_info.addWidget(r_btn)
-        text_block = QVBoxLayout()
-
-        network_name_text = QLabel()
-        network_name_text.setObjectName("network-info-network-name-text")
-        network_name_text.setText("Network: " + self.network_name)
-        network_name_text.setFixedHeight(10)
-        text_block.addWidget(network_name_text)
-
-        ip_address_text = QLabel()
-        ip_address_text.setObjectName("network-info-ip-address-text")
-        ip_address_text.setText("IP: " + self.ip_address)
-        ip_address_text.setFixedHeight(10)
-        text_block.addWidget(ip_address_text)
-
-        vpn_name_text = QLabel()
-        vpn_name_text.setObjectName("network-info-vpn-name-text")
-        vpn_name_text.setText("VPN: " + self.vpn_name)
-        vpn_name_text.setFixedHeight(10)
-        text_block.addWidget(vpn_name_text)
-        self.setLayout(network_info)
-
-        text_block.setObjectName("network-info-text-block")
-        network_info.addLayout(text_block)
-
-
-
-
-class MainLayout(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-
-    def initUI(self):
-        view = QVBoxLayout()
-        view.setObjectName("nm-gui-python-main-layout")
-        view.addWidget(NetworkInfo())
-        self.setLayout(view)
-
-
+        layout = QHBoxLayout()
+        layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
+        layout.addWidget(ImageRadioButton())
+        text_container = QVBoxLayout()
+        network_name_label = QLabel(f"NETWORK: {self.network_name}")
+        ip_address_label = QLabel(f"IP: {self.ip_address}")
+        vpn_name_label = QLabel(f"VPN: {self.vpn_name}")
+        text_container.addWidget(network_name_label)
+        text_container.addWidget(ip_address_label)
+        text_container.addWidget(vpn_name_label)
+        layout.addLayout(text_container)
+        layout.addSpacerItem(QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum))
+        self.setStyleSheet("background-color: #E5F7FF; color: black;")
+        self.setLayout(layout)

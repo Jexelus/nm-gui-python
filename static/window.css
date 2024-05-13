@@ -1,11 +1,10 @@
-#nm-gui-python-window {
+#nm-gui-python-main-layout {
     background-color: #26272A;
 }
 
 #network-info {
-    max-height: 230px;
-    height: 230px;
-    color: white;
+    color: black;
+    background-color: #E5F7FF;
 }
 
 
